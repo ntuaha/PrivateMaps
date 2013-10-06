@@ -13,12 +13,12 @@ public class Maps extends Activity{
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.maps);
 		btn1 = (Button)findViewById(R.id.button);
 		btn1.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Toast.makeText(Maps.this, "HI", Toast.LENGTH_LONG).show();				
+				Toast.makeText(Maps.this, "HI", Toast.LENGTH_SHORT).show();				
 			}
 			
 		});
