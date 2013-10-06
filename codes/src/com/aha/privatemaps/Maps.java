@@ -1,30 +1,24 @@
 package com.aha.privatemaps;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
-public class MainActivity extends Activity {
-
-	
+public class Maps extends Activity{
 	private Button btn1 = null;
-	@Override
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		btn1 = (Button)findViewById(R.id.button);
 		btn1.setOnClickListener(new OnClickListener(){
-
 			@Override
 			public void onClick(View arg0) {
-				Intent changeActivity= new Intent();
-				changeActivity = new Intent(MainActivity.this,Maps.class);
-				startActivity(changeActivity);
-				
+				Toast.makeText(Maps.this, "HI", Toast.LENGTH_LONG).show();				
 			}
 			
 		});
@@ -37,5 +31,4 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
-
 }
