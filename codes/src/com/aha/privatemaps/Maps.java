@@ -14,6 +14,10 @@ public class Maps extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.maps);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+        
+        
 		btn1 = (Button)findViewById(R.id.button);
 		btn1.setOnClickListener(new OnClickListener(){
 			@Override

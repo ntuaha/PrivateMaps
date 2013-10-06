@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="IconDensities" severity="ignore" />
+    <issue id="IconLocation" severity="ignore" />
+    <issue id="UnusedResources" severity="ignore">
+        <ignore path="res/drawable/uranus.jpg" />
+        <ignore path="res/drawable/venus.jpg" />
+    </issue>
+</lint>
