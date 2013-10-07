@@ -6,6 +6,13 @@
     <!-- The main content view -->
 
     <fragment
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.google.android.gms.maps.MapFragment"
+	 />
+    <!--
+         <fragment
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/map"
@@ -24,6 +31,7 @@
         map:uiTiltGestures="true"
         map:uiZoomControls="false"
         map:uiZoomGestures="true" />
+    -->
 
 
     <!-- The navigation drawer -->

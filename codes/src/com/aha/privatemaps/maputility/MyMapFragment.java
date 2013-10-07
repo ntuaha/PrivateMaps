@@ -1,27 +1,30 @@
 package com.aha.privatemaps.maputility;
 
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.aha.privatemaps.R;
+import com.aha.privatemaps.poi.POIData;
+import com.aha.privatemaps.poi.POIManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class MyMapFragment extends SupportMapFragment implements Observer
+public class MyMapFragment extends MapFragment implements Observer
 {
 	//	private volatile static MyMapFragment uniqueInstance;
 	//
@@ -93,31 +96,60 @@ public class MyMapFragment extends SupportMapFragment implements Observer
 
 	}
 	public static final String ARG_PLANET_NUMBER = "planet_number";
-
-	public MyMapFragment() {
-		// Empty constructor required for fragment subclasses
-		// 留空給繼承用的class
-	}
 	static final LatLng NKUT = new LatLng(23.979548, 120.696745);
+	static final LatLng NKUT2 = new LatLng(23.979548, 122.696745);
 	private GoogleMap map;
-	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_map, container, false);
+	private Context context;
 
-		map = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+				context = inflater.getContext();
+			return  super.onCreateView(inflater,container,savedInstanceState);
+		}
+	private List<POIData> data;
+	public void initial(){
+		map = getMap();
+		if(context!=null){
+			Toast.makeText(context, "test",Toast.LENGTH_SHORT).show();
+		}
+		
+		POIManager poiManager = POIManager.getInstance(getResources().getXml(R.xml.genxml));
+		data = poiManager.getPOIs();
+		int i =0;
+		double centerLat =0.0;
+		double centerLng =0.0;
+		for(POIData d : data)
+		{
+			i++;
+			LatLng p = new LatLng(d.lat,d.lng);
+			centerLat += d.lat;
+			centerLng += d.lng;
+			map.addMarker(new MarkerOptions().position(p).title(i+"").snippet("Lat:"+d.lat+",Lng:"+d.lng));
+			//mapManager.setMapBoundsToPois(d.overlay.getCenter());
+			//mapManager.putPOI(d.overlay);
+		}
+		map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(centerLat/i,centerLng/i),12));
+		
+//		//if(map!=null){
+//			//Marker nkut = map.addMarker(new MarkerOptions().position(NKUT).title("南開科技大學").snippet("數位生活創意系"));
+//			map.addMarker(new MarkerOptions().position(NKUT).title("南開科技大學").snippet("數位生活創意系"));
+//			map.moveCamera(CameraUpdateFactory.newLatLngZoom(NKUT, 16));
+//		}else{
+//
+//		}
+	}
+	public void initial2(){
+		map = getMap();
 		if(map!=null){
 			//Marker nkut = map.addMarker(new MarkerOptions().position(NKUT).title("南開科技大學").snippet("數位生活創意系"));
-			//map.moveCamera(CameraUpdateFactory.newLatLngZoom(NKUT, 16));
+			map.addMarker(new MarkerOptions().position(NKUT2).title("南開科技大學").snippet("數位生活創意系"));
+			map.moveCamera(CameraUpdateFactory.newLatLngZoom(NKUT2, 14));
 		}else{
-			
+
 		}
-		return rootView;
 	}
-	
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		initial();
 	}
+
 }

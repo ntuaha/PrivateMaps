@@ -26,7 +26,7 @@ public class POIManager extends Observable
 	private static int FAR_BICYCLE = R.drawable.far_bicycle;
 	private static int NEAR_BICYCLE = R.drawable.near_bicycle;
 	public static float NEAR_AREA_RADIUS = 500.0f;
-	public static POIManager getInstance(XmlPullParser xmlParser,Context context)
+	public static POIManager getInstance(XmlPullParser xmlParser)
 	{
 		if (uniqueInstance == null)
 		{
@@ -34,13 +34,13 @@ public class POIManager extends Observable
 			{
 				if(uniqueInstance == null)
 				{
-					uniqueInstance = new POIManager(xmlParser,context);
+					uniqueInstance = new POIManager(xmlParser);
 				}
 			}
 		}
 		return uniqueInstance;
 	}
-	private POIManager(XmlPullParser xmlParser,Context context)
+	private POIManager(XmlPullParser xmlParser)
 	{
 		pois = new ArrayList<POIData>();
 		try {
@@ -83,8 +83,9 @@ public class POIManager extends Observable
 					}
 					if(data.lat!=0.0)
 					{
-						GeoPoint point = new GeoPoint((int)(data.lat*1e6),(int)(data.lng*1e6));
-						data.overlay=new MyItemizedOverlay(context.getResources().getDrawable(FAR_BICYCLE),point,data.nameZh,data.distanceToMe+"");
+						//GeoPoint point = new GeoPoint((int)(data.lat*1e6),(int)(data.lng*1e6));
+						//Marker marker = 
+						//data.overlay=new MyItemizedOverlay(context.getResources().getDrawable(FAR_BICYCLE),point,data.nameZh,data.distanceToMe+"");
 						pois.add(data);
 					}
 				}
@@ -104,13 +105,13 @@ public class POIManager extends Observable
 		{
 			Location.distanceBetween(poi.lat, poi.lng, endLatitude, endLongitude, results);
 			poi.distanceToMe = results[0];
-			GeoPoint point = new GeoPoint((int)(poi.lat*1e6),(int)(poi.lng*1e6));
+			//GeoPoint point = new GeoPoint((int)(poi.lat*1e6),(int)(poi.lng*1e6));
 			if(poi!=null)
 				if(results[0] <= NEAR_AREA_RADIUS)
 				{				
-					poi.overlay = new MyItemizedOverlay(context.getResources().getDrawable(NEAR_BICYCLE),point,poi.nameZh,poi.distanceToMe+""); 
+					//poi.overlay = new MyItemizedOverlay(context.getResources().getDrawable(NEAR_BICYCLE),point,poi.nameZh,poi.distanceToMe+""); 
 				}else{
-					poi.overlay = new MyItemizedOverlay(context.getResources().getDrawable(FAR_BICYCLE),point,poi.nameZh,poi.distanceToMe+"");
+					//poi.overlay = new MyItemizedOverlay(context.getResources().getDrawable(FAR_BICYCLE),point,poi.nameZh,poi.distanceToMe+"");
 				}				
 		}	
 		Collections.sort(pois,new POIComparator());
