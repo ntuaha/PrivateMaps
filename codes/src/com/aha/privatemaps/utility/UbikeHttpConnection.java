@@ -16,7 +16,7 @@ import org.apache.http.entity.mime.MultipartEntity;
 
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -28,8 +28,8 @@ import android.util.Log;
 
 public class UbikeHttpConnection {
 	private static final String CONNECT_PATH = "http://www.youbike.com.tw/genxml9.php?radius=10&mode=0";
-	//	private static final int CONNECT_TIMEOUT = 10000;
-	//	private static final int WAIT_DATA_TIMEOUT = 10000;
+		private static final int CONNECT_TIMEOUT = 10000;
+		private static final int WAIT_DATA_TIMEOUT = 10000;
 	static public List<POIData> connectServer() throws ConnectTimeoutException{
 		List<POIData> feedback = null;
 		HttpPost httpRequest = new HttpPost(CONNECT_PATH);
@@ -39,8 +39,8 @@ public class UbikeHttpConnection {
 			httpRequest.setEntity(entity);
 
 			HttpParams httpParameters = new BasicHttpParams();
-			//HttpConnectionParams.setConnectionTimeout(httpParameters, CONNECT_TIMEOUT);
-			//HttpConnectionParams.setSoTimeout(httpParameters, WAIT_DATA_TIMEOUT);
+			HttpConnectionParams.setConnectionTimeout(httpParameters, CONNECT_TIMEOUT);
+			HttpConnectionParams.setSoTimeout(httpParameters, WAIT_DATA_TIMEOUT);
 			httpParameters.setParameter("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_8; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Chrome/4.0.249.0 Safari/532.5");
 
 
@@ -87,6 +87,8 @@ public class UbikeHttpConnection {
 	private static List<POIData> getPOIData(XmlPullParser xmlParser)
 	{
 		List<POIData> feedback = new ArrayList<POIData>();
+		double prevlat =0.0;
+		double prevlng =0.0;
 		try {
 			while (xmlParser.next() != XmlPullParser.END_DOCUMENT)
 			{
@@ -125,8 +127,13 @@ public class UbikeHttpConnection {
 							data.icon_type = Integer.parseInt(attrValue);										
 						} 
 					}
-					if(data.lat!=0.0)
+					//排除重複的資料
+					if(data.lat == prevlat && data.lng ==prevlng){
+						continue;
+					}else if(data.lat!=0.0)
 					{
+						prevlat = data.lat;
+						prevlng = data.lng;
 						feedback.add(data);
 					}
 				}
