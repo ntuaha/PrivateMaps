@@ -19,8 +19,8 @@ public class ServiceManager {
 		mMessenger = m;
 	}
 	Messenger mMessenger;
-	private final static String WATCH_TAG = "com.myubike.service";
-	private final String SERIVCEBASENAME="com.myubike.service";
+	private final static String WATCH_TAG = "com.aha.service";
+	private final String SERIVCEBASENAME="com.aha.service";
 	public Messenger mService = null;
 	/** Flag indicating whether we have called bind on the service. */
 	boolean mIsBound;

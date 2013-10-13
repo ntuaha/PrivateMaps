@@ -14,6 +14,4 @@ public class POIData {
 	public String mday="";
 	public int icon_type= -1; // unknown variable
 	public float distanceToMe = Float.MAX_VALUE;
-	//@SuppressWarnings("rawtypes")
-	//public ItemizedOverlay overlay = null;
 }

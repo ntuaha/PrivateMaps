@@ -1,21 +1,18 @@
 package com.aha.privatemaps.maputility;
 
-
-import java.sql.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 
 
-import android.content.Context;
-import android.location.Location;
+
+
 import android.os.Bundle;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
 
 import com.aha.privatemaps.R;
 import com.aha.privatemaps.poi.POIData;
@@ -32,70 +29,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MyMapFragment extends MapFragment implements Observer
 {
-	//	private volatile static MyMapFragment uniqueInstance;
-	//
-	//	private MapManager mapManager;
-	//	private GoogleMap mapView;
-	//	private List<POIData> data;
-	//	public static MyMapFragment getInstance()
-	//	{
-	//		if (uniqueInstance == null)
-	//		{
-	//			synchronized (POIManager.class)
-	//			{
-	//				if(uniqueInstance == null)
-	//				{
-	//					uniqueInstance = new MyMapFragment();
-	//				}
-	//			}
-	//		}
-	//		return uniqueInstance;
-	//	}
-	//	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
-	//	{  
-	//
-	//		View view = inflater.inflate(R.layout.fragment_map, container, false);  
-	//		mapView = getMap();
-	//		return initial(view,inflater.getContext());  
-	//	}  
-	//	public View initial(View view,final Context context){
-	//		POIManager poiManager = POIManager.getInstance(context.getResources().getXml(R.xml.genxml),context);
-	//		data = poiManager.getPOIs();
-	//		
-	//		//mapView.setBuiltInZoomControls(false);
-	//		//mapManager = new MapManager(mapView,25037798,121565170,15,context.getResources().getDrawable(R.drawable.user),context.getResources().getDrawable(R.drawable.target));
-	//		for(POIData d : data)
-	//		{
-	//			mapManager.setMapBoundsToPois(d.overlay.getCenter());
-	//			mapManager.putPOI(d.overlay);
-	//			
-	//		}
-	//		mapManager.moveGoodScale();
-	//
-	//		return view;
-	//	}
-	//	
-	//	@Override
-	//	public void update(Observable observable, Object obj) {
-	//		if(observable instanceof POIManager)
-	//		{
-	//			Bundle bundle = (Bundle)obj;			
-	//			mapManager.setCurrentPoistion(bundle.getDouble("lat"), bundle.getDouble("lng"));
-	//		}
-	//	}
-	//	public void moveToLocation(ItemizedOverlay overlay) {
-	//		mapManager.alertPOI(overlay);
-	//		
-	//	}
-	//	@Override
-	//	public void onSaveInstanceState(Bundle outState) {
-	//	    //No call for super(). Bug on API Level > 11.
-	//	}
-	//	public void moveToMe() {
-	//		mapManager.moveToMe();
-	//		
-	//	}
-
+	private Marker personalMarker = null;
+	
 	@Override
 	public void update(Observable observable, Object obj) {
 		if(map!=null)
@@ -103,31 +38,29 @@ public class MyMapFragment extends MapFragment implements Observer
 			if(observable instanceof POIManager)
 			{
 				Bundle bundle = (Bundle)obj;			
-				//mapManager.setCurrentPoistion(bundle.getDouble("lat"), bundle.getDouble("lng"));
 				LatLng myLatLng = new LatLng(bundle.getDouble("lat"),bundle.getDouble("lng"));
 				StringBuilder sb = new StringBuilder();
 				sb.append("Lat:").append(bundle.getDouble("lat"))
-				.append(" Lng:").append(bundle.getDouble("lng"))
-				.append(" Time:").append(bundle.getLong("Time"));
+				.append(" Lng:").append(bundle.getDouble("lng"));
+				//.append(" Time:").append(Utility.convertUNIXtoDate());
 				CameraPosition myPosition = new CameraPosition.Builder().target(myLatLng).zoom(15).bearing(0).tilt(30).build();
-				Marker mk = map.addMarker(new MarkerOptions().position(myLatLng).title("Me").snippet(sb.toString())
-						.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-				mk.showInfoWindow();		
-				map.animateCamera(CameraUpdateFactory.newCameraPosition(myPosition));
+				//Refresh map 
+				if(personalMarker == null)
+				{
+					personalMarker = map.addMarker(new MarkerOptions().position(myLatLng).title("Me").snippet(sb.toString())
+							.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+					map.animateCamera(CameraUpdateFactory.newCameraPosition(myPosition));
+				}else{
+					personalMarker.setPosition(myPosition.target);
+				}
+				personalMarker.showInfoWindow();						
 			}
 		}
-
 	}
 	public static final String ARG_PLANET_NUMBER = "planet_number";
 	static final LatLng NKUT = new LatLng(23.979548, 120.696745);
 	static final LatLng NKUT2 = new LatLng(23.979548, 122.696745);
 	private GoogleMap map;
-	//private Context context;
-
-	//		public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-	//				context = inflater.getContext();
-	//			return  super.onCreateView(inflater,container,savedInstanceState);
-	//		}
 	private List<POIData> data;
 	public void initial(){
 		map = getMap();
@@ -146,7 +79,7 @@ public class MyMapFragment extends MapFragment implements Observer
 			LatLng p = new LatLng(d.lat,d.lng);
 			centerLat += d.lat;
 			centerLng += d.lng;
-			map.addMarker(new MarkerOptions().position(p).title(i+"").snippet("Lat:"+d.lat+",Lng:"+d.lng));
+			map.addMarker(new MarkerOptions().position(p).title(i+":"+d.addressZh).snippet("Lat:"+d.lat+",Lng:"+d.lng));
 			//mapManager.setMapBoundsToPois(d.overlay.getCenter());
 			//mapManager.putPOI(d.overlay);
 		}

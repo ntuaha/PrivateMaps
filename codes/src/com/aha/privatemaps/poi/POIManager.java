@@ -23,8 +23,8 @@ public class POIManager extends Observable
 {
 	private List<POIData> pois;
 	private volatile static POIManager uniqueInstance;
-	private static int FAR_BICYCLE = R.drawable.far_bicycle;
-	private static int NEAR_BICYCLE = R.drawable.near_bicycle;
+//	private static int FAR_BICYCLE = R.drawable.far_bicycle;
+//	private static int NEAR_BICYCLE = R.drawable.near_bicycle;
 	public static float NEAR_AREA_RADIUS = 500.0f;
 	public static POIManager getInstance(XmlPullParser xmlParser)
 	{
