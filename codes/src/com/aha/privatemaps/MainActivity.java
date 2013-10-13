@@ -100,11 +100,11 @@ public class MainActivity extends Activity {
 	private void setFragment(){
 		//mapFragment = new MyMapFragment.getInstance();
 		mapFragment = new MyMapFragment();
-		//poiManager = POIManager.getInstance(getResources().getXml(R.xml.genxml),MainActivity.this);
-		//poiManager.addObserver(mapFragment);
+		poiManager = POIManager.getInstance(getResources().getXml(R.xml.genxml));
+		poiManager.addObserver(mapFragment);
 
 		serviceManager = new ServiceManager(mMessenger);
-		//serviceManager.doBindService(MainActivity.this);
+		serviceManager.doBindService(MainActivity.this);
 
 
 	}
@@ -186,8 +186,8 @@ public class MainActivity extends Activity {
 			 double lat = bundle.getDouble("lat");
 			 double lng = bundle.getDouble("lng");
 			 long time = bundle.getLong("time");
-			 //Log.d("Main",""+lat+","+lng);
-			 //poiManager.updateCurrentPosition(MainActivity.this,lat, lng,time);		
+			 Log.d("Main",""+lat+","+lng);
+			 poiManager.updateCurrentPosition(MainActivity.this,lat, lng,time);		
 		 }
 
 
