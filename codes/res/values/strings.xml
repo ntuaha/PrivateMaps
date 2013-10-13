@@ -31,6 +31,7 @@
     <string name="drawer_close" translatable="false">Close navigation drawer</string>
     <string name="action_websearch" translatable="false">Web search</string>
     <string name="app_not_available" translatable="false">Sorry, there\'s no web browser available</string>
+    <string name="image" translatable="false">圖</string>
     
     <!--  debug map key -->
 	<!-- <string name="mapkey">0XxbKzqtpyZ2Ec6U2gBzRkKdPQuRXlfn7UBADmQ</string> -->

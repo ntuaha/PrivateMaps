@@ -10,9 +10,7 @@ import java.util.Observable;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import com.aha.privatemaps.R;
-import com.aha.privatemaps.maputility.MyItemizedOverlay;
-import com.google.android.maps.GeoPoint;
+
 
 import android.content.Context;
 import android.location.Location;

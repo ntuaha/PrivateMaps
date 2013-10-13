@@ -54,6 +54,7 @@ public class ServiceManager {
 	    // Establish a connection with the service.  We use an explicit
 	    // class name because there is no reason to be able to let other
 	    // applications replace our component.
+		//TODO ERROR
 	    context.bindService(new Intent(context, MainService.class), mConnection, Context.BIND_AUTO_CREATE);
 	    mIsBound = true;
 	    Log.d("ServiceManager","Bind Service strat");
